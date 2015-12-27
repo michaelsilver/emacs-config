@@ -10,7 +10,21 @@
                                   (revert-buffer-function " %b"
                                                           ("%b - Dir:  " default-directory)))))))
 
-;; have this last
+;; Zoom
+(defun djcb-zoom (n)
+  "with positive N, increase the font size, otherwise decrease it"
+  (set-face-attribute
+   'default nil :height
+   (+ (face-attribute 'default :height)
+      (* n 5)))
+  (message (format "Font size: %d"
+		   (face-attribute 'default :height))))
+
+(global-set-key (kbd "M-+")      #'(lambda nil (interactive) (djcb-zoom 1)))
+(global-set-key (kbd "M--")      #'(lambda nil (interactive) (djcb-zoom -2)))
+
+;; XXX: Have this be the last thing you do. Apparently things get
+;; overriden if it is at the beginning of the file.
 ;; Solarized Dark Theme
 (require 'graphene)
 
@@ -20,6 +34,8 @@
 (set-frame-parameter nil 'background-mode 'dark)
 (set-terminal-parameter nil 'background-mode 'dark)
 (enable-theme 'solarized)
+
+(set-face-attribute 'mode-line nil  :height 1.05)
 
 (provide 'ms-visual)
 ;;; ms-visual.el ends here
