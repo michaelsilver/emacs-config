@@ -6,7 +6,7 @@
 (global-unset-key (kbd "C-x f"))
 
 ;; for convenience
-(global-set-key (kbd "C-x g") 'goto-line)
+(global-set-key (kbd "C-c g") 'goto-line)
 
 (provide 'ms-keybindings)
 ;;; ms-keybindings.el ends here

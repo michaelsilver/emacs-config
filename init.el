@@ -2,6 +2,9 @@
 ;;; Commentary:
 ;;; Code:
 
+;; Common Lisp library
+(require 'cl)
+
 ;; Require Emacs' package functionality
 (require 'package)
 
@@ -18,6 +21,8 @@
 (require 'ms-keybindings)
 (require 'ms-visual)
 (require 'ms-tramp)
+(require 'git-commit)
+(require 'ms-git)
 (require 'ms-python)
 
 (setq enable-local-variables :all)
