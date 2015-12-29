@@ -17,6 +17,7 @@
   (require 'ms-macosx))
 (require 'ms-visual)
 (require 'ms-tramp)
+(require 'ms-python)
 
 (setq enable-local-variables :all)
 
