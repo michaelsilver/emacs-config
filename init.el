@@ -15,6 +15,7 @@
 (load-file "~/.emacs.d/lisp/ms-preliminaries.el")
 (when (eq system-type 'darwin) ;; mac specific settings
   (require 'ms-macosx))
+(require 'ms-keybindings)
 (require 'ms-visual)
 (require 'ms-tramp)
 (require 'ms-python)
