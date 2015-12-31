@@ -5,6 +5,10 @@
 ;; Common Lisp library
 (require 'cl)
 
+(eval-when-compile
+  (require 'cl))
+
+
 ;; Require Emacs' package functionality
 (require 'package)
 
@@ -23,7 +27,6 @@
 (require 'ms-tramp)
 (require 'git-commit)
 (require 'ms-git)
-(require 'ms-python)
 
 (setq enable-local-variables :all)
 
