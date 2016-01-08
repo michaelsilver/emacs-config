@@ -27,7 +27,6 @@
 (require 'ms-tramp)
 (require 'git-commit)
 (require 'ms-git)
-(require 'autopep8)
 
 (setq enable-local-variables :all)
 
