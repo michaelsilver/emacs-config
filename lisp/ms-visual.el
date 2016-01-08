@@ -10,6 +10,12 @@
                                   (revert-buffer-function " %b"
                                                           ("%b - Dir:  " default-directory)))))))
 
+;; highlight lines
+(global-hl-line-mode 1)
+
+;; enforce 80-character limit
+(add-hook 'python-mode-hook 'column-enforce-mode)
+
 ;; Zoom
 (defun djcb-zoom (n)
   "with positive N, increase the font size, otherwise decrease it"
