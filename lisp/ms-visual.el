@@ -12,6 +12,7 @@
 
 ;; highlight lines
 (global-hl-line-mode 1)
+(setq-default show-trailing-whitespace t)
 
 ;; enforce 80-character limit
 (add-hook 'python-mode-hook 'column-enforce-mode)
