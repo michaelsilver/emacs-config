@@ -24,9 +24,11 @@
   (require 'ms-macosx))
 (require 'ms-keybindings)
 (require 'ms-visual)
+(require 'ms-automode)
 (require 'ms-tramp)
 (require 'git-commit)
 (require 'ms-git)
+(require 'ms-gnuplot)
 
 (setq enable-local-variables :all)
 
