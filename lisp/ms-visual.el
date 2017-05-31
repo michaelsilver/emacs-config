@@ -16,6 +16,8 @@
 
 ;; enforce 80-character limit
 (add-hook 'python-mode-hook 'column-enforce-mode)
+(add-hook 'scheme-mode-hook 'column-enforce-mode)
+(add-hook 'c-mode-common-hook 'column-enforce-mode)
 
 ;; Zoom
 (defun djcb-zoom (n)
