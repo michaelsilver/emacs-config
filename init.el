@@ -2,6 +2,10 @@
 ;;; Commentary:
 ;;; Code:
 
+(require 'server)
+(unless (server-running-p)
+  (server-start))
+
 (setq warning-minimum-level :emergency)
 
 ;; Common Lisp library
@@ -41,12 +45,20 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(css-indent-offset 2 t)
+ '(js-indent-level 2)
  '(package-selected-packages
    (quote
-    (google-c-style flymake-google-cpplint solarized-theme jinja2-mode graphene gnuplot git-commit company-jedi company-anaconda column-enforce-mode chicken-scheme))))
+    (coffee-mode rjsx-mode js-doc json-mode web-mode google-c-style flymake-google-cpplint solarized-theme jinja2-mode graphene gnuplot git-commit company-jedi company-anaconda column-enforce-mode chicken-scheme)))
+ '(tab-width 8)
+ '(web-mode-code-indent-offset 2)
+ '(web-mode-css-indent-offset 2)
+ '(web-mode-markup-indent-offset 2)
+ '(web-mode-script-padding 0)
+ '(web-mode-style-padding 0))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(web-mode-html-tag-bracket-face ((t (:foreground "#839496")))))
