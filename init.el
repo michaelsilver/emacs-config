@@ -32,6 +32,7 @@
 (require 'ms-visual)
 (require 'ms-automode)
 (require 'ms-tramp)
+(require 'llvm-mode)
 (require 'git-commit)
 (require 'ms-git)
 (require 'ms-gnuplot)
@@ -49,12 +50,12 @@
  '(js-indent-level 2)
  '(package-selected-packages
    (quote
-    (coffee-mode rjsx-mode js-doc json-mode web-mode google-c-style flymake-google-cpplint solarized-theme jinja2-mode graphene gnuplot git-commit company-jedi company-anaconda column-enforce-mode chicken-scheme)))
+    (company-coq proof-general magit markdown-mode coffee-mode rjsx-mode js-doc json-mode web-mode google-c-style flymake-google-cpplint solarized-theme jinja2-mode graphene gnuplot git-commit company-jedi company-anaconda column-enforce-mode chicken-scheme)))
  '(tab-width 8)
  '(web-mode-code-indent-offset 2)
  '(web-mode-css-indent-offset 2)
  '(web-mode-markup-indent-offset 2)
- '(web-mode-script-padding 0)
+ '(web-mode-script-padding 2)
  '(web-mode-style-padding 0))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
