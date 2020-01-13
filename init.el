@@ -50,8 +50,10 @@
  '(js-indent-level 2)
  '(package-selected-packages
    (quote
-    (company-coq proof-general magit markdown-mode coffee-mode rjsx-mode js-doc json-mode web-mode google-c-style flymake-google-cpplint solarized-theme jinja2-mode graphene gnuplot git-commit company-jedi company-anaconda column-enforce-mode chicken-scheme)))
+    (tide dotenv-mode yaml-mode dockerfile-mode terraform-mode gitignore-mode go-mode company-coq proof-general magit markdown-mode coffee-mode rjsx-mode js-doc json-mode web-mode google-c-style flymake-google-cpplint solarized-theme jinja2-mode graphene gnuplot git-commit company-jedi company-anaconda column-enforce-mode chicken-scheme)))
+ '(require-final-newline t)
  '(tab-width 8)
+ '(tramp-use-ssh-controlmaster-options nil t)
  '(web-mode-code-indent-offset 2)
  '(web-mode-css-indent-offset 2)
  '(web-mode-markup-indent-offset 2)
@@ -62,4 +64,5 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(web-mode-block-delimiter-face ((t nil)))
  '(web-mode-html-tag-bracket-face ((t (:foreground "#839496")))))
