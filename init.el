@@ -47,10 +47,12 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(css-indent-offset 2 t)
+ '(flycheck-go-golint-executable nil)
  '(js-indent-level 2)
  '(package-selected-packages
    (quote
-    (tide dotenv-mode yaml-mode dockerfile-mode terraform-mode gitignore-mode go-mode company-coq proof-general magit markdown-mode coffee-mode rjsx-mode js-doc json-mode web-mode google-c-style flymake-google-cpplint solarized-theme jinja2-mode graphene gnuplot git-commit company-jedi company-anaconda column-enforce-mode chicken-scheme)))
+    (flycheck-golangci-lint tide dotenv-mode yaml-mode dockerfile-mode terraform-mode gitignore-mode go-mode company-coq proof-general magit markdown-mode coffee-mode rjsx-mode js-doc json-mode web-mode google-c-style flymake-google-cpplint solarized-theme jinja2-mode graphene gnuplot git-commit company-jedi company-anaconda column-enforce-mode chicken-scheme)))
+ '(ps-left-header (quote (ps-get-buffer-name)))
  '(require-final-newline t)
  '(tab-width 8)
  '(tramp-use-ssh-controlmaster-options nil t)

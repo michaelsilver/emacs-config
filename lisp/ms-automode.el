@@ -55,8 +55,124 @@
 
 (add-hook 'typescript-mode-hook #'setup-tide-mode)
 
-(set-variable (quote scheme-program-name) "csi")
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;         MIT-scheme config                        ;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; Scheme
+;; (set-variable (quote scheme-program-name) "csi")
+;; (set-variable (quote scheme-program-name) "mit-scheme")
+
+;; This is the place where you have installed scheme. Be sure to set
+;; this to an appropriate value!!!
+(setq scheme-root "/usr/local")
+
+(setq scheme-program-name
+      (concat
+       scheme-root "/bin/mit-scheme "
+       "--library " scheme-root "/lib/mit-scheme-svm1 "
+       "--band " scheme-root "/lib/mit-scheme-svm1/all.com "
+       "-heap 100000"))
+
+;; generic scheme completeion
+(require 'scheme-complete)
+(autoload 'scheme-smart-complete "scheme-complete" nil t)
+(autoload 'scheme-get-current-symbol-info "scheme-complete" nil t)
+(setq lisp-indent-function 'scheme-smart-indent-function);
+
+;; mit-scheme documentation
+(require 'mit-scheme-doc)
+
+;; Special keys in scheme mode. Use <tab> to indent scheme code to the
+;; proper level, and use M-. to view mit-scheme-documentation for any
+;; symbol.
+(eval-after-load
+ 'scheme
+ '(define-key scheme-mode-map "\t" 'scheme-complete-or-indent))
+
+(eval-after-load
+ 'cmuscheme
+ '(define-key inferior-scheme-mode-map "\t" 'scheme-complete-or-indent))
+
+;; (eval-after-load
+;;  'scheme
+;;  '(define-key scheme-mode-map (kbd "M-.") 'mit-scheme-doc-lookup))
+
+;; (eval-after-load
+;;  'cmuscheme
+;;  '(define-key inferior-scheme-mode-map (kbd "M-.")
+;;     'mit-scheme-doc-lookup))
+
+(eval-after-load
+ 'scheme
+ '(define-key scheme-mode-map (kbd "M-.") 'find-tag))
+
+(eval-after-load
+ 'cmuscheme
+ '(define-key inferior-scheme-mode-map (kbd "M-.")
+    'find-tag))
+
+(eval-after-load
+ 'scheme
+ '(define-key scheme-mode-map (kbd "M-,") 'tags-loop-continue))
+
+(eval-after-load
+ 'cmuscheme
+ '(define-key inferior-scheme-mode-map (kbd "M-,")
+    'tags-loop-continue))
+
+(eval-after-load
+ 'scheme
+ '(define-key scheme-mode-map (kbd "M-*") 'pop-tag-mark))
+
+(eval-after-load
+ 'cmuscheme
+ '(define-key inferior-scheme-mode-map (kbd "M-*")
+    'pop-tag-mark))
+
+
+;; (defun comint-send-input-indent ()
+;;   (interactive)
+;;   (let ((parens (or (car (syntax-ppss)) 0)))
+;;     (if (zerop parens)
+;;         (comint-send-input)
+;;       (newline-and-indent))))
+
+;; (with-eval-after-load 'scheme
+;;   (define-key scheme-mode-map (kbd "RET") #'comint-send-input-indent))
+
+;; (with-eval-after-load 'cmuscheme
+;;   (define-key inferior-scheme-mode-map (kbd "RET") #'comint-send-input-indent))
+
+(with-eval-after-load 'scheme
+  (define-key scheme-mode-map (kbd "C-j") #'newline-and-indent))
+
+(with-eval-after-load 'cmuscheme
+  (define-key inferior-scheme-mode-map (kbd "C-j") #'newline-and-indent))
+
+(defun ielm-indent-line nil
+  "Indent the current line as Lisp code if it is not a prompt line."
+  (when (save-excursion (comint-bol t) (bolp))
+    (lisp-indent-line)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;         Print a Buffer to PDF  (C-c C-p)         ;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun print-to-pdf ()
+  (interactive)
+  (ps-spool-buffer-with-faces)
+  (switch-to-buffer "*PostScript*")
+  (write-file "/tmp/tmp.ps")
+  (kill-buffer "tmp.ps")
+  (setq pdf-target-name (concat (file-name-sans-extension buffer-file-name) ".pdf"))
+  (setq cmd (concat "ps2pdf14 /tmp/tmp.ps " "\"" pdf-target-name "\""))
+  (shell-command cmd)
+  (shell-command "rm /tmp/tmp.ps")
+  (message (concat "Saved to:  " pdf-target-name)))
+
+(global-set-key (kbd "C-c C-p") 'print-to-pdf)
+
+;; C-mode config
 (add-hook 'c-mode-common-hook '(lambda () (c-set-offset 'statement-case-open '0)))
 (add-hook 'c-mode-common-hook 'google-set-c-style)
 (add-hook 'c-mode-common-hook 'google-make-newline-indent)
@@ -77,18 +193,21 @@
                         (setq comment-start "% ")
                         (setq comment-add 0))))
 
-;; (with-eval-after-load 'cmuscheme
-;;   (define-key inferior-scheme-mode-map (kbd "C-j") #'newline-and-indent))
+(defun my-go-mode-hook ()
+  ; Call Gofmt before saving
+  (add-hook 'before-save-hook 'gofmt-before-save)
+  ; Godef jump key binding
+  (local-set-key (kbd "M-.") 'godef-jump)
+  (local-set-key (kbd "M-*") 'pop-tag-mark))
+(add-hook 'go-mode-hook 'my-go-mode-hook)
 
-(defun comint-send-input-indent ()
-  (interactive)
-  (let ((parens (or (car (syntax-ppss)) 0)))
-    (if (zerop parens)
-        (comint-send-input)
-      (newline-and-indent))))
+(let ((govet (flycheck-checker-get 'go-vet 'command)))
+  (when (equal (cadr govet) "tool")
+    (setf (cdr govet) (cddr govet))))
 
-(with-eval-after-load 'cmuscheme
-  (define-key inferior-scheme-mode-map (kbd "RET") #'comint-send-input-indent))
+;; (eval-after-load 'flycheck
+;;   '(add-hook 'flycheck-mode-hook #'flycheck-golangci-lint-setup))
+;; (setenv "GO111MODULE" "on")
 
 ;; Tramp perf optimizations
 (setq remote-file-name-inhibit-cache nil)
