@@ -3,7 +3,7 @@
 ;;; Code:
 
 ;; I keep hitting this accidentally when C-x C-f 'ing
-(global-unset-key (kbd "C-x f"))
+(global-set-key (kbd "C-x f") 'find-file-in-project-by-selected)
 (global-unset-key (kbd "C-t"))
 
 ;; for convenience
