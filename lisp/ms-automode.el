@@ -14,6 +14,25 @@
 (add-to-list 'auto-mode-alist '("components\\/.*\\.js\\'" . rjsx-mode))
 (add-to-list 'auto-mode-alist '("[.]ll" . llvm-mode))
 
+;; Python
+(elpy-enable)
+;; (defun goto-def-or-rgrep ()
+;;   "Go to definition of thing at point or do an rgrep in project if that fails"
+;;   (interactive)
+;;   (condition-case nil (elpy-goto-definition)
+;;                   (error (elpy-rgrep-symbol (thing-at-point 'symbol)))))
+;; (define-key elpy-mode-map (kbd "M-.") 'goto-def-or-rgrep)
+
+(defun my-recenter-elpy-goto (&rest r)
+  (recenter))
+(advice-add #'elpy-goto-location :after #'my-recenter-elpy-goto)
+(define-key elpy-mode-map (kbd "M-.") 'elpy-goto-assignment)
+
+;; Enable Flycheck
+(when (require 'flycheck nil t)
+  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+  (add-hook 'elpy-mode-hook 'flycheck-mode))
+
 ;; TIDE (Typescript)
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
 (add-hook 'web-mode-hook
