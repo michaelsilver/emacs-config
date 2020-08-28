@@ -13,6 +13,12 @@
 (add-to-list 'auto-mode-alist '("[.]vue" . web-mode))
 (add-to-list 'auto-mode-alist '("components\\/.*\\.js\\'" . rjsx-mode))
 (add-to-list 'auto-mode-alist '("[.]ll" . llvm-mode))
+(add-to-list 'auto-mode-alist '("[.]json" . json-mode))
+
+(add-hook 'json-mode-hook
+          (lambda ()
+                  (make-local-variable 'js-indent-level)
+                  (setq js-indent-level 4)))
 
 ;; Python
 (elpy-enable)
@@ -213,6 +219,8 @@
                         (setq comment-add 0))))
 
 (defun my-go-mode-hook ()
+  ;; Use goimports instead of go-fmt
+  (setq gofmt-command "goimports")
   ; Call Gofmt before saving
   (add-hook 'before-save-hook 'gofmt-before-save)
   ; Godef jump key binding
