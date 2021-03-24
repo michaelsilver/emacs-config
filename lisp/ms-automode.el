@@ -11,14 +11,15 @@
 (add-to-list 'auto-mode-alist '("[.]js" . web-mode))
 ;; (add-to-list 'auto-mode-alist '("[.]js" . rjsx-mode))
 (add-to-list 'auto-mode-alist '("[.]vue" . web-mode))
-(add-to-list 'auto-mode-alist '("components\\/.*\\.js\\'" . rjsx-mode))
+;; (add-to-list 'auto-mode-alist '("components\\/.*\\.js\\'" . rjsx-mode))
+(add-to-list 'auto-mode-alist '("components\\/.*\\.js\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("[.]ll" . llvm-mode))
-(add-to-list 'auto-mode-alist '("[.]json" . json-mode))
+(add-to-list 'auto-mode-alist '("[.]json" . web-mode))
 
 (add-hook 'json-mode-hook
           (lambda ()
                   (make-local-variable 'js-indent-level)
-                  (setq js-indent-level 4)))
+                  (setq js-indent-level 2)))
 
 ;; Python
 (elpy-enable)
@@ -59,6 +60,23 @@
               (setup-tide-mode))))
 ;; configure jsx-tide checker to run after your default jsx checker
 (flycheck-add-mode 'javascript-eslint 'web-mode)
+(setq js2-strict-missing-semi-warning nil)
+
+(add-to-list 'web-mode-comment-formats '("jsx" . "//" ))
+(add-to-list 'web-mode-comment-formats '("javascript" . "//" ))
+
+(add-to-list 'web-mode-indentation-params '("lineup-calls" . nil))
+(setq-default typescript-indent-level 2)
+(setq-default typescript-expr-indent-offset 2)
+
+(add-hook 'tide-mode-hook
+          (lambda () (local-set-key (kbd "M-*") 'tide-jump-back)))
+
+;; Prettier for auto code formatting
+(add-hook 'rjsx-mode-hook 'prettier-js-mode)
+(add-hook 'web-mode-hook 'prettier-js-mode)
+(add-hook 'tide-mode-hook 'prettier-js-mode)
+(add-hook 'yaml-mode-hook 'prettier-js-mode)
 
 (defun setup-tide-mode ()
   (interactive)
@@ -95,8 +113,8 @@
 (setq scheme-program-name
       (concat
        scheme-root "/bin/mit-scheme "
-       "--library " scheme-root "/lib/mit-scheme-svm1 "
-       "--band " scheme-root "/lib/mit-scheme-svm1/all.com "
+       "--library " scheme-root "/lib/mit-scheme-x86-64 "
+       "--band " scheme-root "/lib/mit-scheme-x86-64/all.com "
        "-heap 100000"))
 
 ;; generic scheme completeion
@@ -218,6 +236,10 @@
                         (setq comment-start "% ")
                         (setq comment-add 0))))
 
+(when (eq system-type 'darwin) ;; mac specific settings
+    (setenv "GOROOT" "/usr/local/opt/go/libexec")
+    (setenv "GOPATH" (concat (file-name-as-directory (getenv "HOME")) ".go")))
+
 (defun my-go-mode-hook ()
   ;; Use goimports instead of go-fmt
   (setq gofmt-command "goimports")
@@ -235,6 +257,9 @@
 ;; (eval-after-load 'flycheck
 ;;   '(add-hook 'flycheck-mode-hook #'flycheck-golangci-lint-setup))
 ;; (setenv "GO111MODULE" "on")
+
+;; Terraform
+(add-hook 'terraform-mode-hook #'terraform-format-on-save-mode)
 
 ;; Tramp perf optimizations
 (setq remote-file-name-inhibit-cache nil)
